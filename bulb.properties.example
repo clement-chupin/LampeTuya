@@ -1,0 +1,4 @@
+# Copy to bulb.properties and fill in (see AGENT.md for how to get the local key).
+bulb.id=your_device_id
+bulb.key=your_16_char_local_key
+bulb.ip=192.168.1.x

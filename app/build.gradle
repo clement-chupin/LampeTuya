@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+// Bulb credentials live in ../bulb.properties (gitignored), see bulb.properties.example
+def bulb = new Properties()
+def bulbFile = rootProject.file('bulb.properties')
+if (!bulbFile.exists()) throw new GradleException("Missing bulb.properties — copy bulb.properties.example and fill it in")
+bulbFile.withReader('UTF-8') { bulb.load(it) }
+def quoted = { String v -> '"' + v.replace('\\', '\\\\').replace('"', '\\"') + '"' }
+
+android {
+    namespace "com.lampe.tuya"
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId "com.lampe.tuya"
+        minSdkVersion 26
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField "String", "BULB_ID", quoted(bulb.getProperty('bulb.id'))
+        buildConfigField "String", "BULB_KEY", quoted(bulb.getProperty('bulb.key'))
+        buildConfigField "String", "BULB_IP", quoted(bulb.getProperty('bulb.ip'))
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
