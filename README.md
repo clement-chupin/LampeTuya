@@ -13,7 +13,7 @@ directement en Wi-Fi local : sans cloud, sans compte, sans pub, et instantanée.
 
 **Lumière**
 - Gros bouton ON/OFF qui prend la couleur réelle de l'ampoule
-- Curseurs couleur, blanc (chaud ↔ froid) et luminosité
+- Curseurs couleur, saturation (blanc ↔ couleur pure), blanc (chaud ↔ froid) et luminosité
 - 8 pastilles de couleurs rapides
 
 **Effets**

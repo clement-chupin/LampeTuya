@@ -68,7 +68,7 @@ public class MainActivity extends Activity implements BulbClient.Listener {
     private Glow power;
     private TextView status, tabLight, tabFx;
     private View lightPage, fxPage;
-    private GradientSlider hueSlider, brightSlider, tempSlider;
+    private GradientSlider hueSlider, satSlider, brightSlider, tempSlider;
     private GradientSlider fxShift, fxSpeed, fxFluid, fxSparkle, fxBright;
     private final TextView[] modeChips = new TextView[EffectEngine.MODES.length];
     private final View[] paletteChips = new View[EffectEngine.PALETTES.length];
@@ -163,7 +163,12 @@ public class MainActivity extends Activity implements BulbClient.Listener {
         hueSlider = slider(page, "Couleur", RAINBOW, v -> {
             stopFx();
             hue = Math.round(v * 360);
-            sat = 1000;
+            enterColour();
+            sendColour();
+        });
+        satSlider = slider(page, "Saturation", new int[]{0xFFFFFFFF, 0xFFFF0000}, v -> {
+            stopFx();
+            sat = Math.round(v * 1000);
             enterColour();
             sendColour();
         });
@@ -483,6 +488,8 @@ public class MainActivity extends Activity implements BulbClient.Listener {
         String label = fxTab ? (fxRunning ? "STOP" : "LANCER") : (on ? "ON" : "OFF");
         power.setState(on || fxRunning, lightColor(), label);
         hueSlider.setValue(hue / 360f);
+        satSlider.setValue(sat / 1000f);
+        satSlider.setColors(0xFFFFFFFF, Color.HSVToColor(new float[]{hue, 1f, 1f}));
         tempSlider.setValue(temp / 1000f);
         int b = colourMode ? val : bright;
         brightSlider.setValue((b - 10) / 990f);
